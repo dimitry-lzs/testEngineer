@@ -1,0 +1,23 @@
+export class User {
+  id: number;
+  username: string;
+  password: string;
+
+  constructor(id: number, username: string, password: string) {
+    this.id = id;
+    this.username = username;
+    this.password = password;
+  }
+}
+
+export class Joke {
+  id: string;
+  jokeContent: string;
+  userId: number;
+
+  constructor(id: string, jokeContent: string, userId: number) {
+    this.id = id;
+    this.jokeContent = jokeContent;
+    this.userId = userId;
+  }
+}

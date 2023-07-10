@@ -1,0 +1,17 @@
+import express from 'express';
+import { login, logout, getRandomJoke } from './controllers';
+import { AuthMiddleware } from './middleware';
+
+const app = express();
+const PORT = 3000;
+
+app.use(express.json());
+app.use(AuthMiddleware);
+
+app.post('/login', login);
+app.post('/logout', logout);
+app.get('/joke', getRandomJoke);
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

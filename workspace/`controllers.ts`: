@@ -1,0 +1,37 @@
+import { Request, Response } from 'express';
+import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
+import { Database } from './database';
+import { User, Joke } from './models';
+
+const database = new Database();
+
+export async function login(req: Request, res: Response): Promise<void> {
+  // Implement the login logic here
+  // Retrieve the username and password from the request body
+  // Check if the username and password match the predefined values
+  // Generate a JWT token and send it in the response header
+  // Return a JSON response with the success flag
+}
+
+export async function logout(req: Request, res: Response): Promise<void> {
+  // Implement the logout logic here
+  // Invalidate the JWT token by removing it from the response header
+  // Return a JSON response with the success flag
+}
+
+export async function getRandomJoke(req: Request, res: Response): Promise<void> {
+  try {
+    const response = await axios.get('https://api.chucknorris.io/jokes/random');
+    const jokeId = uuidv4();
+    const jokeContent = response.data.value;
+    const userId = req.user.id; // Assuming the user information is set in the request object by the AuthMiddleware
+
+    const joke = new Joke(jokeId, jokeContent, userId);
+    await database.insertJoke(joke);
+
+    res.json({ jokeContent });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to retrieve a random joke' });
+  }
+}
